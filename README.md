@@ -1,11 +1,11 @@
 # Temperature and Humidity Sensor (Raspberry Pi)
 
-This project reads temperature and humidity from a DHT sensor (DHT11 or DHT22) on a Raspberry Pi and prints the readings to the console.
+This project reads temperature and humidity from a DHT22 sensor on a Raspberry Pi and prints the readings to the console.
 
 ## Requirements
 - Raspberry Pi (with GPIO)
 - 10kΩ pull-up resistor
-- DHT11 or DHT22 sensor
+- DHT22 sensor
 - Python 3.7+
 - Poetry
 
