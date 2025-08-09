@@ -28,7 +28,7 @@ This project reads temperature and humidity from a DHT sensor (DHT11 or DHT22) o
 6. Run the script:
    ```sh
    # Option 1: Direct Python execution
-   poetry run python src/read_sensor.py
+   poetry run python -m rpi_dht22.read_sensor
    
    # Option 2: Using the script entry point
    poetry run read-sensor

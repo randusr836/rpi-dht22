@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-read-sensor = "src.read_sensor:main"
+read-sensor = "rpi_dht22.read_sensor:main"
 
 
 # [tool.poetry] section is not required for PEP 621 projects
