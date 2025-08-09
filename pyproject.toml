@@ -7,7 +7,7 @@ authors = [
     {name = "randusr836", email = "1752417+randusr836@users.noreply.github.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.7,<3.9.0 || >3.9.1,<4.0"
+requires-python = ">=3.8"
 dependencies = [
     "adafruit-circuitpython-dht (>=4.0.9,<5.0.0)",
     "adafruit-blinka (>=8.0.0,<9.0.0)",
