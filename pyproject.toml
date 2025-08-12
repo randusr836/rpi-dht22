@@ -11,7 +11,8 @@ requires-python = ">=3.8"
 dependencies = [
     "adafruit-circuitpython-dht (>=4.0.9,<5.0.0)",
     "adafruit-blinka (>=8.0.0,<9.0.0)",
-    "RPi.GPIO (>=0.7.0,<1.0.0)"
+    "RPi.GPIO (>=0.7.0,<1.0.0)",
+    "paho-mqtt (>=1.6.0,<2.0.0)"
 ]
 
 [project.scripts]
