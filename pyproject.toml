@@ -16,6 +16,7 @@ dependencies = [
 
 [project.scripts]
 read-sensor = "rpi_dht22.read_sensor:main"
+publish-sensor = "rpi_dht22.publish_sensor_data:main"
 
 
 # [tool.poetry] section is not required for PEP 621 projects
