@@ -11,11 +11,12 @@ requires-python = ">=3.8"
 dependencies = [
     "adafruit-circuitpython-dht (>=4.0.9,<5.0.0)",
     "adafruit-blinka (>=8.0.0,<9.0.0)",
-    "RPi.GPIO (>=0.7.0,<1.0.0)"
+    "paho-mqtt (>=1.6.0,<2.0.0)"
 ]
 
 [project.scripts]
 read-sensor = "rpi_dht22.read_sensor:main"
+publish-sensor = "rpi_dht22.publish_sensor_data:main"
 
 
 # [tool.poetry] section is not required for PEP 621 projects
