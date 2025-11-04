@@ -1,6 +1,6 @@
 # Temperature and Humidity Sensor (Raspberry Pi)
 
-This project reads temperature and humidity from a DHT22 sensor on a Raspberry Pi and prints the readings to the console.
+This project reads temperature and humidity from a DHT22 sensor on a Raspberry Pi and publishes the readings to an MQTT broker.
 
 ## Requirements
 - Raspberry Pi (with GPIO)
@@ -28,16 +28,22 @@ This project reads temperature and humidity from a DHT22 sensor on a Raspberry P
 6. Run the script:
    ```sh
    # Option 1: Direct Python execution
-   poetry run python -m rpi_dht22.read_sensor
+   poetry run python -m rpi_dht22.publish_sensor_data
    
    # Option 2: Using the script entry point
-   poetry run read-sensor
+   poetry run publish-sensor-data
    ```
 
-## Notes
+### Notes
 - The `adafruit-circuitpython-dht` library is used for sensor reading.
 - If running on a non-Raspberry Pi system, sensor reading will not work.
 - You may need to run as root (`sudo`) on the Pi for GPIO access.
 
+## Testing
+To verify that the MQTT messages are being published, you can use the `mosquitto_sub` command on your local machine (assuming you have an MQTT broker running):
+
+```sh
+mosquitto_sub -h localhost -t "sensors/dht22/temperature" -t "sensors/dht22/humidity" -v
+```
 ## License
 MIT
