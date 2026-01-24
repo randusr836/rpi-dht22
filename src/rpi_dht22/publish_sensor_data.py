@@ -4,11 +4,19 @@ import board
 import time
 import json
 import os
+import logging
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 DHT_PIN = board.D4
 
@@ -24,14 +32,14 @@ class MQTTSensorPublisher:
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
-            print("Connected successfully")
+            logger.info("Connected successfully")
             self.connected = True
         else:
-            print(f"Connection failed with code {rc}")
+            logger.error(f"Connection failed with code {rc}")
 
     def wait_for_connection(self, timeout=10):
         """Wait for MQTT connection with timeout"""
-        print("Waiting for connection...")
+        logger.info("Waiting for connection...")
         start_time = time.time()
 
         while not self.connected and (time.time() - start_time) < timeout:
@@ -61,23 +69,23 @@ class MQTTSensorPublisher:
                     "timestamp": timestamp
                 }
 
-                print(
+                logger.info(
                     f"Temp: {temperature:.1f}°C, Humidity: {humidity:.1f}% at {timestamp}")
 
                 self.client.publish("sensors/dht22/temperature",
                                     json.dumps(temp_data))
                 self.client.publish("sensors/dht22/humidity",
                                     json.dumps(humidity_data))
-                print("📤 Sensor data published")
+                logger.info("Sensor data published")
             else:
-                print("Failed to read sensor data")
+                logger.warning("Failed to read sensor data")
 
         except RuntimeError as e:
-            print(f"Sensor error: {e}")
+            logger.error(f"Sensor error: {e}")
 
     def start(self):
         """Start the MQTT publisher"""
-        print("Publishing data...")
+        logger.info("Starting MQTT publisher...")
 
         # Connect to MQTT broker
         self.client.connect(self.broker, self.port, 60)
@@ -85,7 +93,7 @@ class MQTTSensorPublisher:
 
         # Wait for connection
         if not self.wait_for_connection():
-            print("❌ Failed to connect within timeout")
+            logger.error("Failed to connect within timeout")
             self.client.loop_stop()
             return
 
@@ -94,15 +102,15 @@ class MQTTSensorPublisher:
 
             while True:
                 self.read_and_publish_sensor()
-                print(f"Waiting {READ_INTERVAL} seconds...")
+                logger.debug(f"Waiting {READ_INTERVAL} seconds...")
                 time.sleep(READ_INTERVAL)
 
         except KeyboardInterrupt:
-            print("\nShutting down...")
+            logger.info("Shutting down...")
         finally:
             self.client.loop_stop()
             self.client.disconnect()
-            print("Disconnected")
+            logger.info("Disconnected")
 
 
 def main():
@@ -112,7 +120,7 @@ def main():
     mqtt_username = os.getenv("MQTT_USERNAME")
     mqtt_password = os.getenv("MQTT_PASSWORD")
     
-    print(f"Connecting to MQTT broker at {mqtt_broker}:{mqtt_port}")
+    logger.info(f"Connecting to MQTT broker at {mqtt_broker}:{mqtt_port}")
     publisher = MQTTSensorPublisher(mqtt_broker, mqtt_port)
     publisher.start()
 
