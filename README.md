@@ -31,7 +31,7 @@ This project reads temperature and humidity from a DHT22 sensor on a Raspberry P
    poetry run python -m rpi_dht22.publish_sensor_data
    
    # Option 2: Using the script entry point
-   poetry run publish-sensor-data
+   poetry run publish-sensor
    ```
 
 ### Notes
