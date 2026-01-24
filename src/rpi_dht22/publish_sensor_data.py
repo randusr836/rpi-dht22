@@ -3,7 +3,12 @@ import paho.mqtt.client as mqtt
 import board
 import time
 import json
+import os
 from datetime import datetime, timezone
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 DHT_PIN = board.D4
 
@@ -101,7 +106,14 @@ class MQTTSensorPublisher:
 
 
 def main():
-    publisher = MQTTSensorPublisher("localhost")  # Fix your IP!
+    # Read configuration from environment variables
+    mqtt_broker = os.getenv("MQTT_BROKER", "localhost")
+    mqtt_port = int(os.getenv("MQTT_PORT", "1883"))
+    mqtt_username = os.getenv("MQTT_USERNAME")
+    mqtt_password = os.getenv("MQTT_PASSWORD")
+    
+    print(f"Connecting to MQTT broker at {mqtt_broker}:{mqtt_port}")
+    publisher = MQTTSensorPublisher(mqtt_broker, mqtt_port)
     publisher.start()
 
 

@@ -24,6 +24,15 @@ This project reads temperature and humidity from a DHT22 sensor on a Raspberry P
    ```sh
    poetry install
    ```
+4. Create a `.env` file for configuration:
+   ```sh
+   cp .env.example .env
+   ```
+   Edit `.env` and set your MQTT broker details:
+   ```
+   MQTT_BROKER=192.168.1.100  # Your MQTT broker IP
+   MQTT_PORT=1883
+   ```
 5. Connect your DHT sensor to the correct GPIO pin (default is GPIO4).
 6. Run the script:
    ```sh
