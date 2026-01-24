@@ -49,10 +49,10 @@ This project reads temperature and humidity from a DHT22 sensor on a Raspberry P
 - You may need to run as root (`sudo`) on the Pi for GPIO access.
 
 ## Testing
-To verify that the MQTT messages are being published, you can use the `mosquitto_sub` command on your local machine (assuming you have an MQTT broker running):
+To verify that the MQTT messages are being published, you can use the `mosquitto_sub` command:
 
 ```sh
-mosquitto_sub -h localhost -t "sensors/dht22/temperature" -t "sensors/dht22/humidity" -v
+mosquitto_sub -h localhost -t "sensors/dht22/#" -v
 ```
 ## License
 MIT
