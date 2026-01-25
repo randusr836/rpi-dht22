@@ -32,6 +32,7 @@ This project reads temperature and humidity from a DHT22 sensor on a Raspberry P
    ```
    MQTT_BROKER=192.168.1.100  # Your MQTT broker IP
    MQTT_PORT=1883
+   READ_INTERVAL=900          # Read interval in seconds (default: 900, 15 minutes)
    ```
 5. Connect your DHT sensor to the correct GPIO pin (default is GPIO4).
 6. Run the script:

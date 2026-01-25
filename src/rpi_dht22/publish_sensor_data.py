@@ -98,12 +98,14 @@ class MQTTSensorPublisher:
             return
 
         try:
-            READ_INTERVAL = 30
+            # Get read interval from environment variable, default to 900 seconds (15 minutes)
+            read_interval = int(os.getenv("READ_INTERVAL", "900"))
+            logger.info(f"Read interval set to {read_interval} seconds")
 
             while True:
                 self.read_and_publish_sensor()
-                logger.debug(f"Waiting {READ_INTERVAL} seconds...")
-                time.sleep(READ_INTERVAL)
+                logger.debug(f"Waiting {read_interval} seconds...")
+                time.sleep(read_interval)
 
         except KeyboardInterrupt:
             logger.info("Shutting down...")
