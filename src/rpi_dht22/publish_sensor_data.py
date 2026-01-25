@@ -98,12 +98,13 @@ class MQTTSensorPublisher:
             return
 
         try:
-            READ_INTERVAL = 30
+            read_interval = self._get_read_interval()
+            logger.info(f"Read interval set to {read_interval} seconds")
 
             while True:
                 self.read_and_publish_sensor()
-                logger.debug(f"Waiting {READ_INTERVAL} seconds...")
-                time.sleep(READ_INTERVAL)
+                logger.debug(f"Waiting {read_interval} seconds...")
+                time.sleep(read_interval)
 
         except KeyboardInterrupt:
             logger.info("Shutting down...")
@@ -111,6 +112,21 @@ class MQTTSensorPublisher:
             self.client.loop_stop()
             self.client.disconnect()
             logger.info("Disconnected")
+
+    def _get_read_interval(self):
+        """Get read interval from environment variable with validation"""
+        default_interval = 900
+        read_interval_str = os.getenv("READ_INTERVAL", str(default_interval))
+        try:
+            read_interval = int(read_interval_str)
+            if read_interval < 1:
+                logger.warning(f"Invalid READ_INTERVAL value {read_interval} (must be >= 1). Using default: {default_interval} seconds")
+                read_interval = default_interval
+        except ValueError:
+            logger.warning(f"Invalid READ_INTERVAL value '{read_interval_str}' (must be an integer). Using default: {default_interval} seconds")
+            read_interval = default_interval
+        
+        return read_interval
 
 
 def main():
