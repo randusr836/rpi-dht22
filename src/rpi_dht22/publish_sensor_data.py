@@ -100,13 +100,14 @@ class MQTTSensorPublisher:
         try:
             # Get read interval from environment variable, default to 900 seconds (15 minutes)
             default_interval = 900
+            read_interval_str = os.getenv("READ_INTERVAL", str(default_interval))
             try:
-                read_interval = int(os.getenv("READ_INTERVAL", str(default_interval)))
+                read_interval = int(read_interval_str)
                 if read_interval < 1:
                     logger.warning(f"Invalid READ_INTERVAL value {read_interval} (must be >= 1). Using default: {default_interval} seconds")
                     read_interval = default_interval
             except ValueError:
-                logger.warning(f"Invalid READ_INTERVAL value '{os.getenv('READ_INTERVAL')}' (must be an integer). Using default: {default_interval} seconds")
+                logger.warning(f"Invalid READ_INTERVAL value '{read_interval_str}' (must be an integer). Using default: {default_interval} seconds")
                 read_interval = default_interval
             
             logger.info(f"Read interval set to {read_interval} seconds")
