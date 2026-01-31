@@ -22,12 +22,17 @@ DHT_PIN = board.D4
 
 
 class MQTTSensorPublisher:
-    def __init__(self, broker, port=1883):
+    def __init__(self, broker, port=1883, username=None, password=None):
         self.broker = broker
         self.port = port
         self.connected = False
         self.client = mqtt.Client()
         self.client.on_connect = self.on_connect
+        if username and password:
+            self.client.username_pw_set(username, password)
+            logger.info("MQTT authentication configured")
+        else:
+            logger.info("MQTT connecting without authentication")
         self.dht_device = adafruit_dht.DHT22(DHT_PIN)
 
     def on_connect(self, client, userdata, flags, rc):
@@ -151,7 +156,7 @@ def main():
     mqtt_password = os.getenv("MQTT_PASSWORD")
     
     logger.info(f"Connecting to MQTT broker at {mqtt_broker}:{mqtt_port}")
-    publisher = MQTTSensorPublisher(mqtt_broker, mqtt_port)
+    publisher = MQTTSensorPublisher(mqtt_broker, mqtt_port, mqtt_username, mqtt_password)
     publisher.start()
 
 
