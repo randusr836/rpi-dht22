@@ -28,9 +28,14 @@ class MQTTSensorPublisher:
         self.connected = False
         self.client = mqtt.Client()
         self.client.on_connect = self.on_connect
-        if username and password:
+        if username:
+            # Configure MQTT authentication whenever a username is provided.
+            # paho-mqtt supports password being None or an empty string.
             self.client.username_pw_set(username, password)
-            logger.info("MQTT authentication configured")
+            if password:
+                logger.info("MQTT authentication configured with username and password")
+            else:
+                logger.info("MQTT authentication configured with username only (no password)")
         else:
             logger.info("MQTT connecting without authentication")
         self.dht_device = adafruit_dht.DHT22(DHT_PIN)
