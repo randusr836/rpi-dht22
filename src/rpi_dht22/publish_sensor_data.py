@@ -4,6 +4,7 @@ import board
 import time
 import json
 import os
+import sys
 import logging
 from datetime import datetime, timezone
 from dotenv import load_dotenv
@@ -105,7 +106,7 @@ class MQTTSensorPublisher:
         if not self.wait_for_connection():
             logger.error("Failed to connect within timeout")
             self.client.loop_stop()
-            return
+            sys.exit(1)
 
         try:
             read_interval = self._get_read_interval()
